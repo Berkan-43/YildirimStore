@@ -1,0 +1,1171 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block title %}
+    
+    {% if request.user.is_authenticated %}
+    <title>{{setting.title}} / {{request.user.username}} </title>
+    {% else %}
+
+    <title>{{setting.title}}</title>
+    {% endif %}
+
+    {% endblock title %}
+
+    {% block CSS %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/productsCSS.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/profileCSS.css' %}">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    
+    {% endblock CSS %}
+
+    
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla -  eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'assets/images/icons/site.html' %}">
+    <link rel="mask-icon" href="{% static 'assets/images/icons/safari-pinned-tab.svg' %}" color="#666666">
+    <link rel="shortcut icon" href="{% static 'assets/images/icons/favicon.ico' %}">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="{% static 'assets/images/icons/browserconfig.xml' %}">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Toast Message start -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <!-- Toast Message End -->
+
+    <!-- Plugins css File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
+    <!-- Main css File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+
+<style>
+    .loading-icon{
+        display: none;
+    }
+</style>
+
+<body>
+
+
+    {% block content %}
+    
+    <div class="page-wrapper">
+        <header class="header">
+            {% include 'includes/_topbar.html' %}<!-- End .header-top -->
+            
+            {% include 'includes/_navbar.html' %}
+        
+            <!-- End .header-middle navbarend-->
+        </header><!-- End .header -->
+
+        <main class="main">
+            <div class="intro-section bg-lighter pt-5 pb-6">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="intro-slider-container slider-container-ratio slider-container-1 mb-2 mb-lg-0">
+                                <div class="intro-slider intro-slider-1 owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{
+                                        "nav": false, 
+                                        "responsive": {
+                                            "768": {
+                                                "nav": true
+                                            }
+                                        }
+                                    }'>
+                                    {% for rs in category_list %}
+                                    <div class="intro-slide">
+                                        <figure class="slide-image">
+                                            <picture>
+                                                <source media="(max-width: 480px)" srcset="{{rs.image2.url}}">
+                                                <img src="{{rs.image.url}}" alt="Image Desc">
+                                            </picture>
+                                        </figure><!-- End .slide-image -->
+
+                                        <div class="intro-content">
+                                            <h3 class="intro-subtitle">{{rs.collection}}</h3><!-- End .h3 intro-subtitle -->
+                                            <h1 class="intro-title">{{rs.title}}<br>{{rs.keywords}}</h1><!-- End .intro-title -->
+    
+                                            <a href="{% url 'category_products' rs.slug %}" class="btn btn-outline-white">
+                                                <span>GÖZ AT</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </a>
+                                        </div><!-- End .intro-content -->
+                                    </div><!-- End .intro-slide -->
+                                    {% endfor %}
+                                   <!-- End .intro-slide -->
+                                </div><!-- End .intro-slider owl-carousel owl-simple -->
+                                
+                                <span class="slider-loader"></span><!-- End .slider-loader -->
+                            </div><!-- End .intro-slider-container -->
+                        </div><!-- End .col-lg-8 -->
+                        <div class="col-lg-4">
+                            <div class="intro-banners">
+                                <div class="row row-sm">
+                                    {% for rs in campaigns1 %}
+                                    <div class="col-md-6 col-lg-12">
+                                        <div class="banner banner-display">
+                                            <a href="{% url 'campaigns_products' rs.slug %}">
+                                                <img src="{{rs.image.url}}" alt="Banner">
+                                            </a>
+
+                                            <div class="banner-content">
+                                                <h4 class="banner-subtitle text-darkwhite"><a href="{% url 'campaigns_products' rs.slug %}">Clearence</a></h4><!-- End .banner-subtitle -->
+                                                <h3 class="banner-title text-white"><a href="{% url 'campaigns_products' rs.slug %}">{{rs.title}} <br>{{rs.slogan}}</a></h3><!-- End .banner-title -->
+                                                <a href="{% url 'campaigns_products' rs.slug %}" class="btn btn-outline-white banner-link">GÖZ AT<i class="icon-long-arrow-right"></i></a>
+                                            </div><!-- End .banner-content -->
+                                        </div><!-- End .banner -->
+                                    </div><!-- End .col-md-6 col-lg-12 -->
+                                    {% endfor %}
+                                   
+                                    <!-- End .col-md-6 col-lg-12 -->
+                                </div><!-- End .row row-sm -->
+                            </div><!-- End .intro-banners -->
+                        </div><!-- End .col-lg-4 -->
+                    </div><!-- End .row -->
+
+                    <div class="mb-6"></div><!-- End .mb-6 -->
+
+                    <div class="owl-carousel owl-simple" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": false,
+                            "margin": 30,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "420": {
+                                    "items":3
+                                },
+                                "600": {
+                                    "items":4
+                                },
+                                "900": {
+                                    "items":5
+                                },
+                                "1024": {
+                                    "items":6
+                                }
+                            }
+                        }'>
+                        <a href="#" class="brand">
+                            <img src="{% static 'assets/images/brands/1.png' %}" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="{% static 'assets/images/brands/2.png' %}" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="{% static 'assets/images/brands/3.png' %}" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="{% static 'assets/images/brands/4.png' %}" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="{% static 'assets/images/brands/5.png' %}" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="{% static 'assets/images/brands/6.png' %}" alt="Brand Name">
+                        </a>
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-lighter -->
+
+            <div class="mb-6"></div><!-- End .mb-6 -->
+
+
+            <div class="container">
+                <div class="heading heading-center mb-6">
+                    <h2 class="title">Yeni Gelenler</h2><!-- End .title -->
+
+                    <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="top-all-link" data-toggle="tab" href="#top-all-tab" role="tab" aria-controls="top-all-tab" aria-selected="true">Tümü</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-fur-link" data-toggle="tab" href="#top-fur-tab" role="tab" aria-controls="top-fur-tab" aria-selected="false">Kadın</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-decor-link" data-toggle="tab" href="#top-decor-tab" role="tab" aria-controls="top-decor-tab" aria-selected="false">Erkek</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="top-light-link" data-toggle="tab" href="#top-light-tab" role="tab" aria-controls="top-light-tab" aria-selected="false">Çocuk</a>
+                        </li>
+                    </ul>
+                </div><!-- End .heading -->
+
+                <div class="tab-content">
+                    <!-- Tümü -->
+                    <div class="tab-pane p-0 fade show active" id="top-all-tab" role="tabpanel" aria-labelledby="top-all-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for rs in just_came_all %} 
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="product product-11 mt-v3 text-center">
+                                        <figure class="product-media">
+                                            {% if rs.stock <= 0 %}
+                                            <span class="product-label label-sale">Stokta yok</span>
+                                            {% else %}
+                                            <span class="product-label label-new">YENİ</span>
+                                            {% endif %}
+                                            <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                                <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                                
+                                                {% if just_came_all.image %}
+                                                <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                                {% endif%}
+                                                
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <b>{{rs.productPrice}} TL</b>
+                                            </div><!-- End .product-price -->
+                                            {% if rs.productShipping == 0 %}
+                                            {% else %}
+                                                <h6 class="text-success">Ücretsiz Kargo</h6>
+                                            {% endif %}
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <!-- Tümü End -->
+
+                    <!-- Kadın Giyim  -->
+                    <div class="tab-pane p-0 fade" id="top-fur-tab" role="tabpanel" aria-labelledby="top-fur-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for rs in just_came_women %} 
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="product product-11 mt-v3 text-center">
+                                        <figure class="product-media">
+                                            {% if rs.stock <= 0 %}
+                                            <span class="product-label label-sale">Stokta yok</span>
+                                            {% else %}
+                                            <span class="product-label label-new">YENİ</span>
+                                            {% endif %}
+                                            <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                                <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                                
+                                                {% if just_came_women.image %}
+                                                <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                                {% endif%}
+                                                
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <b>{{rs.productPrice}} TL</b>
+                                            </div><!-- End .product-price -->
+                                            {% if rs.productShipping == 0 %}
+                                            {% else %}
+                                                <h6 class="text-success">Ücretsiz Kargo</h6>
+                                            {% endif %}
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                   <!-- Kadın Giyim  End -->
+
+                    <!-- Erkek Giyim -->
+                    <div class="tab-pane p-0 fade" id="top-decor-tab" role="tabpanel" aria-labelledby="top-decor-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for rs in just_came_man %} 
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="product product-11 mt-v3 text-center">
+                                        <figure class="product-media">
+                                            {% if rs.stock <= 0 %}
+                                            <span class="product-label label-sale">Stokta yok</span>
+                                            {% else %}
+                                            <span class="product-label label-new">YENİ</span>
+                                            {% endif %}
+                                            <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                                <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                                
+                                                {% if just_came_man.image %}
+                                                <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                                {% endif%}
+                                                
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a class="btn-product-icon btn-wishlist update-favorite favori" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <b>{{rs.productPrice}} TL</b>
+                                            </div><!-- End .product-price -->
+                                            {% if rs.productShipping == 0 %}
+                                            {% else %}
+                                                <h6 class="text-success">Ücretsiz Kargo</h6>
+                                            {% endif %}
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                     <!-- Erkek Giyim End -->
+                     <!-- Çocuk Giyim -->
+                    <div class="tab-pane p-0 fade" id="top-light-tab" role="tabpanel" aria-labelledby="top-light-link">
+                        <div class="products">
+                            <div class="row justify-content-center">
+                                {% for rs in just_came_child %} 
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="product product-11 mt-v3 text-center">
+                                        <figure class="product-media">
+                                            {% if rs.stock <= 0 %}
+                                            <span class="product-label label-sale">Stokta yok</span>
+                                            {% else %}
+                                            <span class="product-label label-new">YENİ</span>
+                                            {% endif %}
+                                            <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                                <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                                
+                                                {% if just_came_child.image %}
+                                                <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                                {% endif%}
+                                                
+                                            </a>
+
+                                            <div class="product-action-vertical">
+                                                <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>
+                                            </div><!-- End .product-action-vertical -->
+                                        </figure><!-- End .product-media -->
+
+                                        <div class="product-body">
+                                            <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                            <div class="product-price">
+                                                <b>{{rs.productPrice}} TL</b>
+                                            </div><!-- End .product-price -->
+                                            {% if rs.productShipping == 0 %}
+                                            {% else %}
+                                                <h6 class="text-success">Ücretsiz Kargo</h6>
+                                            {% endif %}
+                                        </div><!-- End .product-body -->
+                                        <div class="product-action">
+                                            <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                        </div><!-- End .product-action -->
+                                    </div><!-- End .product -->
+                                </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+                                {% endfor %}
+                            </div><!-- End .row -->
+                        </div><!-- End .products -->
+                    </div><!-- .End .tab-pane -->
+                    <!-- Çocuk Giyim End -->
+                </div><!-- End .tab-content -->
+
+                <!-- <div class="more-container text-center">
+                    <a href="blog.html" class="btn btn-outline-darker btn-more"><span>Tümünü Gör</span><i class="icon-long-arrow-right"></i></a>
+                </div> -->
+            </div><!-- End .container -->
+
+    		<div class="container categories pt-6">
+        		<h2 class="title-lg text-center mb-4">Kategorilere Göre Alışveriş</h2><!-- End .title-lg text-center -->
+
+        		<div class="row">
+                    <!-- Dış Mekan Kategorisi -->
+                    {% for rs in home_categories_left %}
+        			<div class="col-6 col-lg-4">
+        				<div class="banner banner-display banner-link-anim">
+                			<a href="{{rs.get_absolute_url}}">
+                				<img src="{{rs.image.url}}" alt="Banner">
+                			</a>
+
+                			<div class="banner-content banner-content-center">
+                				<h3 class="banner-title text-white"><a href="{{rs.get_absolute_url}}">{{rs.title}}</a></h3><!-- End .banner-title -->
+                				<a href="{{rs.get_absolute_url}}" class="btn btn-outline-white banner-link">Tümünü Gör<i class="icon-long-arrow-right"></i></a>
+                			</div><!-- End .banner-content -->
+            			</div><!-- End .banner -->
+        			</div><!-- End .col-sm-6 col-lg-3 -->
+                    {% endfor %}
+
+                    <!-- Dekorasyon & Aydınlatma Kategorisi -->
+                    {% for rs in home_categories_right %} 
+        			<div class="col-6 col-lg-4 order-lg-last">
+        				<div class="banner banner-display banner-link-anim">
+                			<a href="{{rs.get_absolute_url}}">
+                				<img src="{{rs.image.url}}" alt="Banner">
+                			</a>
+
+                			<div class="banner-content banner-content-center">
+                				<h3 class="banner-title text-white"><a href="{{rs.get_absolute_url}}">{{rs.title}}</a></h3><!-- End .banner-title -->
+                				<a href="{{rs.get_absolute_url}}" class="btn btn-outline-white banner-link">Tümünü Gör<i class="icon-long-arrow-right"></i></a>
+                			</div><!-- End .banner-content -->
+            			</div><!-- End .banner -->
+        			</div><!-- End .col-sm-6 col-lg-3 -->
+                    {% endfor %}
+
+        			<div class="col-sm-12 col-lg-4 banners-sm">
+                        <div class="row">
+                            <!-- Ev Tekstil - Mutfak Gereçleri Kategorileri -->
+                            {% for rs in home_categories_center %}
+                			<div class="banner banner-display banner-link-anim col-lg-12 col-6">
+                    			<a href="{{rs.get_absolute_url}}">
+                    				<img src="{{rs.image.url}}" alt="Banner">
+                    			</a>
+
+                    			<div class="banner-content banner-content-center">
+                    				<h3 class="banner-title text-white"><a href="{{rs.get_absolute_url}}">{{rs.title}}</a></h3><!-- End .banner-title -->
+                    				<a href="{{rs.get_absolute_url}}" class="btn btn-outline-white banner-link">Tümünü Gör<i class="icon-long-arrow-right"></i></a>
+                    			</div><!-- End .banner-content -->
+                			</div><!-- End .banner -->
+                            {% endfor %}
+                        </div>
+        			</div><!-- End .col-sm-6 col-lg-3 -->
+        		</div><!-- End .row -->
+    		</div><!-- End .container -->
+
+            <div class="mb-5"></div><!-- End .mb-6 -->
+
+
+            <!-- Yeni Gelenler -->
+
+            <div class="container">
+                <div class="heading heading-center mb-3">
+                    <h2 class="title-lg">Trend Ürünler</h2><!-- End .title -->
+
+                    <ul class="nav nav-pills justify-content-center" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="trendy-all-link" data-toggle="tab" href="#trendy-all-tab" role="tab" aria-controls="trendy-all-tab" aria-selected="true">Tümü</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="trendy-fur-link" data-toggle="tab" href="#trendy-fur-tab" role="tab" aria-controls="trendy-fur-tab" aria-selected="false">Bilgisayar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="trendy-decor-link" data-toggle="tab" href="#trendy-decor-tab" role="tab" aria-controls="trendy-decor-tab" aria-selected="false">Telefon & Aksesuarları</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="trendy-light-link" data-toggle="tab" href="#trendy-light-tab" role="tab" aria-controls="trendy-light-tab" aria-selected="false">Dekorasyon & Aydınlatma</a>
+                        </li>
+                    </ul>
+
+                </div><!-- End .heading -->
+
+                <div class="tab-content tab-content-carousel">
+                    <!-- Tümü -->
+                    <div class="tab-pane p-0 fade show active" id="trendy-all-tab" role="tabpanel" aria-labelledby="trendy-all-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":4,
+                                        "nav": true,
+                                        "dots": false
+                                    }
+                                }
+                            }'>
+
+                            {% for rs in trending_products_all %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    {% if rs.stock <= 0 %}
+                                    <span class="product-label label-sale">Stokta yok</span>
+                                    {% else %}
+                                    
+                                    {% endif %}
+                                
+                                    <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                        <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                        
+                                        {% comment %}
+                                        {% for img in rs.images.all %}
+                                        <img src="{{img.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                        {% endfor %}
+                                        {% endcomment %}
+                                        
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <b>{{rs.productPrice}} TL</b>
+                                    </div><!-- End .product-price -->
+                                    {% if rs.productShipping == 0 %}
+                                        {% else %}
+                                            <h6 class="text-success">Ücretsiz Kargo</h6>
+                                        {% endif %}
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endfor %}
+
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <!-- Tümü End -->
+
+                    
+                    <!-- Mobilya -->
+                    <div class="tab-pane p-0 fade" id="trendy-fur-tab" role="tabpanel" aria-labelledby="trendy-fur-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":4,
+                                        "nav": true,
+                                        "dots": false
+                                    }
+                                }
+                            }'>
+                            {% for rs in trending_products_computer %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    
+                                    {% if rs.stock == 0 %}
+                                    <span class="product-label label-sale">Stokta yok</span>
+                                    {% else %}
+                                    {% endif %}
+                                    <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                        <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                        
+                                        {% if rs.image %}
+                                        <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                        {% endif%}
+                                        
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <b>{{rs.productPrice}} TL</b>
+                                    </div><!-- End .product-price -->
+                                    {% if rs.productShipping == 0 %}
+                                        {% else %}
+                                            <h6 class="text-success">Ücretsiz Kargo</h6>
+                                        {% endif %}
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endfor %}
+
+                            
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <!-- Mobilya end -->
+
+                    <!-- Decor -->
+                    <div class="tab-pane p-0 fade" id="trendy-decor-tab" role="tabpanel" aria-labelledby="trendy-decor-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":4,
+                                        "nav": true,
+                                        "dots": false
+                                    }
+                                }
+                            }'>
+                            {% for rs in trending_products_phone %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    
+                                    {% if rs.stock == 0 %}
+                                    <span class="product-label label-sale">Stokta yok</span>
+                                    {% else %}
+                                    {% endif %}
+                                    <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                        <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                        
+                                        {% if rs.image %}
+                                        <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                        {% endif%}
+                                        
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <b>{{rs.productPrice}} TL</b>
+                                    </div><!-- End .product-price -->
+                                    {% if rs.productShipping == 0 %}
+                                        {% else %}
+                                            <h6 class="text-success">Ücretsiz Kargo</h6>
+                                        {% endif %}
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endfor %}
+
+                            
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <!-- Decor end -->
+                    <!-- Aydınlatma -->
+                    <div class="tab-pane p-0 fade" id="trendy-light-tab" role="tabpanel" aria-labelledby="trendy-light-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":4,
+                                        "nav": true,
+                                        "dots": false
+                                    }
+                                }
+                            }'>  
+                            {% for rs in trending_products_decor %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    
+                                    {% if rs.stock == 0 %}
+                                    <span class="product-label label-sale">Stokta yok</span>
+                                    {% else %}
+                                    {% endif %}
+                                    <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                        <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                        
+                                        {% if rs.image %}
+                                        <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                        {% endif%}
+                                        
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>                                    </div><!-- End .product-action-vertical -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <b>{{rs.productPrice}} TL</b>
+                                    </div><!-- End .product-price -->
+                                    {% if rs.productShipping == 0 %}
+                                        {% else %}
+                                            <h6 class="text-success">Ücretsiz Kargo</h6>
+                                        {% endif %}
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endfor %}
+
+                            
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                    <!-- Aydınlatma end-->
+                </div><!-- End .tab-content -->
+            </div><!-- End .container -->
+            
+            
+        </main>
+        </div>
+
+            <div class="container">
+                <hr>
+            	<div class="row justify-content-center">
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="icon-box icon-box-card text-center">
+                            <span class="icon-box-icon">
+                                <i class="icon-rocket"></i>
+                            </span>
+                            <div class="icon-box-content">
+                                <h3 class="icon-box-title">Ödeme & Teslimat</h3><!-- End .icon-box-title -->
+                                <p>100 TL üzerindeki siparişler için ücretsiz kargo</p>
+                            </div><!-- End .icon-box-content -->
+                        </div><!-- End .icon-box -->
+                    </div><!-- End .col-lg-4 col-sm-6 -->
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="icon-box icon-box-card text-center">
+                            <span class="icon-box-icon">
+                                <i class="icon-rotate-left"></i>
+                            </span>
+                            <div class="icon-box-content">
+                                <h3 class="icon-box-title">Para İade Garantisi</h3><!-- End .icon-box-title -->
+                                <p>15 Gün içerisinde ücretsiz %100 para iade garantisi</p>
+                            </div><!-- End .icon-box-content -->
+                        </div><!-- End .icon-box -->
+                    </div><!-- End .col-lg-4 col-sm-6 -->
+
+                    <div class="col-lg-4 col-sm-6">
+                        <div class="icon-box icon-box-card text-center">
+                            <span class="icon-box-icon">
+                                <i class="icon-life-ring"></i>
+                            </span>
+                            <div class="icon-box-content">
+                                <h3 class="icon-box-title">Kaliteli Destek</h3><!-- End .icon-box-title -->
+                                <p>Her zaman çevrimiçi geri bildirim 7/24</p>
+                            </div><!-- End .icon-box-content -->
+                        </div><!-- End .icon-box -->
+                    </div><!-- End .col-lg-4 col-sm-6 -->
+                </div><!-- End .row -->
+
+                <div class="mb-2"></div><!-- End .mb-2 -->
+            </div><!-- End .container -->
+            
+
+            <div class="container-fluit bg-light mb-6 p-4">
+            <div class="container">
+                <div class="heading heading-center mb-3">
+                    <h2 class="title-lg mt-5">Süper Fırsatlar</h2><!-- End .title -->
+                </div><!-- End .heading -->
+
+                <div class="tab-content tab-content-carousel">
+                    
+                    <div class="tab-pane p-0 fade show active" id="trendy-all-tab" role="tabpanel" aria-labelledby="trendy-all-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":4,
+                                        "nav": true,
+                                        "dots": false
+                                    }
+                                }
+                            }'>
+
+                            {% for rs in super_deals %}
+                            <div class="product product-11 text-center">
+                                <figure class="product-media">
+                                    {% if rs.stock <= 0 %}
+                                    <span class="product-label label-sale">Stokta yok</span>
+                                    {% else %}
+                                    <span class="product-label label-new">30% İndirim</span>
+                                    {% endif %}
+                                    <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                        <img src="{{rs.productImage.url}}" alt="Ürün resmi" class="product-image">
+                                        
+                                        {% if super_deals.image %}
+                                        <img src="{{rs.image.url}}" alt="Ürün resmi" class="product-image-hover">
+                                        {% endif%}
+                                        
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a class="btn-product-icon btn-wishlist update-favorite favori" id="btn-send-{{ rs.id }}" data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><span>Favorilere Ekle</span></a>
+                                    </div><!-- End .product-action-vertical -->
+                                    
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <h3 class="product-title"><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <b>{{rs.productPrice}} TL</b>
+                                    </div><!-- End .product-price -->
+                                    {% if rs.productShipping == 0 %}
+                                        {% else %}
+                                            <h6 class="text-success">Ücretsiz Kargo</h6>
+                                        {% endif %}
+                                </div><!-- End .product-body -->
+                                <div class="product-action">
+                                    <a class="btn-product btn-cart update-cart btn-send" id="btn-send-{{ rs.id }}" data-product="{{ rs.id}}" data-action="add"onclick="clickAddToCartButton(this); return false;"><span>Sepete Ekle</span></a>
+                                </div><!-- End .product-action -->
+                            </div><!-- End .product -->
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End .owl-carousel -->
+        
+
+        
+        {% include 'includes/_footer.html' %}
+    </div><!-- End .page-wrapper -->
+
+    {% include 'includes/_mobile-menu.html' %}
+
+    <!-- Newslwttter -->
+    <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <div class="row no-gutters bg-white newsletter-popup-content">
+                    <div class="col-xl-3-5col col-lg-7 banner-content-wrap">
+                        <div class="banner-content text-center">
+                            <img src="{% static 'assets/images/popup/newsletter/logo.png' %}" class="logo" alt="logo" width="60" height="15">
+                            <h2 class="banner-title">get <span>25<light>%</light></span> off</h2>
+                            <p>Subscribe to the Molla eCommerce newsletter to receive timely updates from your favorite products.</p>
+                            <form action="#">
+                                <div class="input-group input-group-round">
+                                    <input type="email" class="form-control form-control-white" placeholder="Your Email Address" aria-label="Email Adress" required>
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit"><span>go</span></button>
+                                    </div><!-- .End .input-group-append -->
+                                </div><!-- .End .input-group -->
+                            </form>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="register-policy-2" required>
+                                <label class="custom-control-label" for="register-policy-2">Do not show this popup again</label>
+                            </div><!-- End .custom-checkbox -->
+                        </div>
+                    </div>
+                    <div class="col-xl-2-5col col-lg-5 ">
+                        <img src="{% static 'assets/images/popup/newsletter/img-1.jpg' %}" class="newsletter-img" alt="newsletter">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'includes/_messages.html' %}
+    </section>
+
+    {% endblock content %}
+
+<!-- Sign in / Register Modal -->
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Giriş Yap</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Üye Ol</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tab-content-5">
+                            <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                {% if login_form.errors %}
+                            <div class="alert-danger alert-dismissible text-center list-display-none" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in login_form.errors.items %}
+                                        <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                                <form action="{% url 'account_login' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="">Kullanıcı Adı</label>
+                                        {{ login_form.login }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="singin-password">Parola</label>
+                                        {{ login_form.password }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>GİRİŞ</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            {{ login_form.remember }}
+                                            <label class="custom-control-label" for="signin-remember">Beni Hatırla</label>
+                                        </div><!-- End .custom-checkbox -->
+
+                                        <a href="{% url 'account_reset_password' %}" class="forgot-link">Şifremi unuttum</a>
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">veya</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-login btn-g">
+                                                <i class="icon-google text-info"></i>
+                                                Google ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'github' method="oauth2" %}" class="btn btn-login btn-f">
+                                                <i class="icon-github text-black-50"></i>
+                                                GitHub ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                {% if register_form.errors %}
+                                <ul class="errorlist">
+                                    <li>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+                                        NOT: Halihazırda bir{{site_name}} hesabı ve hesabınızı bağlamak istiyorum {{provider_name}} hesap lütfen tıklayın {% endblocktrans %}
+                                    <a href="{% url 'socialaccount_connections' %}">{% trans " Burada" %}</a> önce oturum açmak için.</li>
+                                </ul>
+                            {% endif %}
+                                <form action="{% url 'account_singup' %}"method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="form-label">Kullanıcı Adı</label>
+                                        <!-- <input type="email" class="form-control" id="register-email" name="register-email" required> -->
+                                        {{ register_form.username }}
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-email">E-posta</label>
+                                        {{ register_form.email }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-password">Parola</label>
+                                        <!-- <input type="password" class="form-control" id="register-password" name="register-password" required> -->
+                                        {{ register_form.password1 }}
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-password">Parola Tekrarı</label>
+                                        <!-- <input type="password" class="form-control" id="register-password" name="register-password" required> -->
+                                        {{ register_form.password2 }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>ÜYE OL</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                            <label class="custom-control-label" for="register-policy"><a href="#">Gizlilik politikasını*</a> kabul ediyorum.</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">veya</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-login btn-g">
+                                                <i class="icon-google text-info"></i>
+                                                Google ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'github' method="oauth2" %}" class="btn btn-login btn-f">
+                                                <i class="icon-github text-black-50"></i>
+                                                GitHub ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .modal-body -->
+        </div><!-- End .modal-content -->
+    </div><!-- End .modal-dialog -->
+</div><!-- End .modal -->
+
+
+    {% block JS %}
+    
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'assets/js/cart.js' %}" defer></script>
+    <script src="{% static 'assets/js/cartUpdate.js' %}"></script>
+    <script src="{% static 'assets/js/favorites.js' %}"></script>
+    <script type="text/javascript">
+        var user = '{{ request.user }}'
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+    </script>
+
+    
+{% endblock JS %}
+
+<!-- Toast Message start -->
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+    <!-- <script src="https://unpkg.com/htmx.org@1.6.0"></script> -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<!-- Alpinejs -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+<!-- Toast Message End -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>

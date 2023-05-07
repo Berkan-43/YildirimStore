@@ -1,0 +1,151 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<header class="header">
+    {% include 'includes/_topbar.html' %} <!-- End .header-top -->
+
+    {% include 'includes/_navbar.html' %}
+    <!-- End .header-middle navbarend-->
+</header><!-- End .header -->
+
+<section class="section-content padding-y bg">
+    <div class="container">
+        <div class="row">
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Sipariş Adresi</h4>
+                        <form action="{% url 'url_placeOrder' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label>Ad</label>
+                                    <input type="text" name="first_name" class="form-control" placeholder="İsim">
+                                </div>
+                                <div class="col form-group">
+                                    <label>Soyad</label>
+                                    <input type="text" name="last_name" placeholder="Soy isim" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label>Email</label>
+                                    <input type="email" name="email" class="form-control" placeholder="Mail adresi">
+                                </div>
+                                <div class="col form-group">
+                                    <label>Telefon</label>
+                                    <input type="text" name="phone" class="form-control"
+                                           placeholder="Telefon numarası">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label>Adres Başlığı</label>
+                                    <input type="text" name="address_title" class="form-control"
+                                           placeholder="Adres Başlığı">
+                                </div>
+                                <div class="col form-group">
+                                    <label>Şehir</label>
+                                    <input type="text" name="city" class="form-control" placeholder="Şehir">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label>Açık Adresi</label>
+                                    <textarea name="clear_address" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label>Sipariş Notu</label>
+                                    <textarea name="order_note" class="form-control"></textarea>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+            </aside>
+            <aside class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Ürün</th>
+                                <th scope="col">Adet</th>
+                                <th scope="col" style="width: 100px">Fiyat</th>
+                                <th scope="col" class="text-right"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {# START PRODUCT #}
+                            {% for cart_item in cart_items %}
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            {% if cart_item.product.productShipping == 0 %}
+                                                {% else %}
+                                                <p class=" text-success"><big><b><i>Ücretsiz Kargo</i></b></big></p>
+                                                {% endif %}
+                                            {% if cart_item.product.stock <= 0 %}
+                                                <p class=" text-danger"><big><b><i>Ürün Stokta yok</i></b></big></p>
+                                            {% else %}
+                                            {% endif %}
+                                            <div class="aside">
+                                                <img style="width: 150px;" src="{{ cart_item.product.productImage.url }}"class="img-sm">
+                                                
+                                            </div>
+                                            <figcaption class="info">
+                                                <a href=""
+                                                   class=" text-dark">{{ cart_item.product.productTitle|title }}</a>
+                                                <p class="text-muted">
+                                                    {% if cart_item.variations.all %}
+                                                        {% for variation in cart_item.variations.all %}
+                                                            {{ variation.variation_category|title }} :
+                                                            {{ variation.variation_value|title }}
+                                                            <br>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td>
+                                        <label for="">{{ cart_item.amount }}</label>
+                                    </td>
+                                    <td>
+                                        <div class="">
+                                            <var class="price">₺ {{ cart_item.get_sub_total }}</var>
+                                            <!-- <small class="text-muted">Parça: ₺ {{ cart_item.product.productPrice }} </small> -->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {# END PRODUCT #}
+                            </tbody>
+                        </table>
+
+                        {% if product.stock <= 0 %}
+                        <span class="fs-3 text-danger"><b><i>Maalesef Sepetinizdeki Bazı Ürünlerden Stokta kalmadı stokta kalmayan ürünleri <a href="{% url 'shoppingcart' %}">sepetinizden</a> çıkarıp siparişinize devam edebilirsiniz</i></b></span>
+                            <a href="{% url 'index' %}" class="btn btn-light btn-block">Alışverişe Devam Et</a>
+                        {% else %}
+                            <button type="submit" class="btn btn-primary btn-block"> Sipariş Ver</button>
+                            <a href="{% url 'index' %}" class="btn btn-light btn-block">Alışverişe Devam Et</a>
+                        {% endif %}
+
+                        </form>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'includes/_messages.html' %}
+    </section>
+    {% include 'includes/_footer.html' %}
+    
+    
+    {% include 'includes/_mobile-menu.html' %}
+{% endblock content %}

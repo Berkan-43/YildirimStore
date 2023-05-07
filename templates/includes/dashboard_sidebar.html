@@ -1,0 +1,19 @@
+<aside class="col-md-12 col-lg-4 mt-3 mb-3">
+    <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link {% if 'user/profile/' == request.path %}  active {% endif %}" id="tab-dashboard-link" href="{% url 'profile' %}" aria-selected="true">Profil</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link me-5  {% if 'user/my-orders/' == request.path %} active{% endif %}" id="tab-orders-link" href="{% url 'url_myOrders' %}">Siparişler</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'password/set/' == request.path %}  active{% endif %}" id="tab-downloads-link" href="{% url 'account_set_password' %}">Şifre Değiştir</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'user/update/' == request.path %}active{% endif %}" id="tab-account-link"  href="{% url 'user_update' %}">Profili Düzenle</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if 'user/update/' == request.path %}active{% endif %}" id="tab-account-link"  href="{% url 'account_email' %}">E-Posta Adreslerim</a>
+        </li>
+    </ul>
+</aside><!-- End .col-lg-3 -->

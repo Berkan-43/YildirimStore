@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block title %}
+<title>Hakkımızda  >>>  {{setting.company}}</title>
+{% endblock title %}
+
+{% block head %}
+<link rel="shortcut icon" type="image/x-icon" href="{{setting.icon.url}}">
+{% endblock head %}
+
+{% block content %}
+<header class="header">
+    {% include 'includes/_topbar.html' %} <!-- End .header-top -->
+
+    {% include 'includes/_navbar.html' %}
+    
+    <!-- End .header-middle navbarend-->
+</header><!-- End .header -->
+<main class="main">
+<nav aria-label="breadcrumb" class="breadcrumb-nav">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'index' %}">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Hakkımızda</li>
+        </ol>
+    </div><!-- End .container -->
+</nav><!-- End .breadcrumb-nav -->
+
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    {{setting.aboutus|safe}}
+                </div>
+            </div>
+        </div>
+    </main>
+
+        <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+            {% include 'includes/_messages.html' %}
+        </section>
+        {% include 'includes/_footer.html' %}
+        
+        
+        {% include 'includes/_mobile-menu.html' %}
+        
+ 
+     {% endblock content %}

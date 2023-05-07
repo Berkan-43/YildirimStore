@@ -1,0 +1,329 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    {% block title %}
+    <title>Profil  >>>  {{request.user.username}}</title>
+    {% endblock title %}
+
+    {% block head %}
+    <link rel="shortcut icon" type="image/x-icon" href="{{setting.icon.url}}">
+    {% endblock head %}
+
+    {% block CSS %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/profileCSS.css' %}">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+
+<style>
+  
+
+.alert_box{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% , -50%);
+}
+.show_button{
+  height: 40px;
+  padding: 0 30px;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  color: #fff;
+  line-height: 55px;
+  background: #2980b9;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.show_button:hover{
+  background: #2573a7;
+}
+.background{
+  position: absolute;
+  height: 128%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.alert_box{
+  padding: 30px;
+  display: flex;
+  background: #fff;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 450px;
+  width: 100%;
+  border-radius: 5px;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50% , -50%) scale(0.97);
+  transition: all 0.3s ease;
+}
+#check:checked ~ .alert_box{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50% , -50%) scale(1);
+}
+#check:checked ~ .background{
+  opacity: 1;
+  pointer-events: auto;
+}
+#check{
+  display: none;
+}
+.alert_box .icon{
+  height: 100px;
+  width: 100px;
+  color: #f23b26;
+  border: 3px solid #f23b26;
+  border-radius: 50%;
+  line-height: 97px;
+  font-size: 50px;
+}
+
+.alert_box p{
+  font-size: 20px;
+}
+
+.btns label{
+  display: inline-flex;
+  height: 55px;
+  padding: 0 30px;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  line-height: 55px;
+  outline: none;
+  margin: 0 10px;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+.btns label:first-child{
+  background: #2980b9;
+}
+.btns label:first-child:hover{
+  background: #2573a7;
+}
+.btns label:last-child{
+  background: #f23b26;
+}
+.btns label:last-child:hover{
+  background: #d9210d;
+}
+</style>
+    {% endblock %}
+
+
+    {% block content %}
+    <header class="header">
+        {% include 'includes/_topbar.html' %}<!-- End .header-top -->
+    
+        {% include 'includes/_navbar.html' %}
+        
+        <!-- End .header-middle navbarend-->
+    </header><!-- End .header -->
+
+    <div class="page-content mt-sm-5">
+      <div class="dashboard">
+      <div class="container">
+          <div class="row">
+             {% include 'includes/dashboard_sidebar.html' %}
+    <div class="wrapper bg-white  col-md-12 col-lg-8">
+      <h4 class="pb-4 border-bottom">Profil</h4>
+      
+      <div class="d-flex align-items-start py-3 border-bottom">
+        
+          {% if profile.profile_image %}
+          <img
+             src="{{profile.profile_image.url}}"
+             class="img" alt="">
+          {% else %}
+           <img
+             src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+             class="img" alt="">
+           <!-- <img
+             src="{% static 'img/no-avatar.jpg' %}"
+             class="img" alt=""> -->
+           {% endif %}
+           <!-- <div class="pl-sm-4 pl-2" id="img-section">
+            <p class="text-black-50 fs-5"> UID:  {{ user.socialaccount_set.all.0.uid }}</p> 
+            <p class="text-black-50 fs-5"> Katıldığın Tarıh:  {{ user.socialaccount_set.all.0.date_joined}}</p> 
+            <p class="text-black-50 fs-5">Son Giriş:  {{ user.socialaccount_set.all.0.last_login}}</p> 
+           
+           </div> -->
+                  
+      </div>
+      <div class="py-2">
+      
+         <div class="row py-2">
+            <div class="col-md-6"><label for="firstname">İsim</label> <input disabled=" disabled " value="{{ user.first_name }}"
+               type="text"
+               class="bg-light form-control"
+               placeholder="Adınızı giriniz"></div>
+            <div class="col-md-6 pt-md-0 pt-3">
+      
+              <label for="lastname">Soy isim</label>
+              <input value="{{ user.last_name }}" type="text" class="bg-light form-control" disabled=" disabled " placeholder="Soyisim giriniz">
+          </div>
+         </div>
+      
+         <div class="row py-2">
+            <div class="col-md-6"><label for="email">Email Adresi</label> <input disabled=" disabled "  value="{{ user.email }}"
+               type="text"
+               class="bg-light form-control"
+               placeholder="mail@email.com"></div>
+            <div class="col-md-6 pt-md-0 pt-3"><label for="phone">Telefon Numarası</label> <input disabled=" disabled " 
+               value="{{ user.phone|default_if_none:'' }}" type="tel" class="bg-light form-control"
+               placeholder="543 555 4433"></div>
+         </div>
+         
+         <div class="row py-2">
+            <div class="col-md-6">
+               <label for="country">Adreslerim</label>
+               <select name="country" id="country"
+                  class="bg-light">
+               {% if userAddress %}
+               {% for address in userAddress %}
+               <option data-address="{{ address.id }}" value="{{ address.id }}">{{ address }}</option>
+               {% endfor %}
+               {% else %}
+               <option value="">------------</option>
+               {% endif %}
+               </select>
+            </div>
+      
+            <div class="col-md-6 pt-4">
+               <div class="row">
+                  <div class="col-md-6 col-lg-6">
+                     <button type="button" class="btn btn-outline-primary mb-2" id="adressadd" data-toggle="modal" data-target="#addAddress">
+                     <i class="fa fa-plus" aria-hidden="true"></i> Adres Ekle
+                     </button>
+                  </div>
+                  <div class="col-md-6 col-lg-6">
+                     <button type="button" class="btn btn-outline-danger" id="addressdelete" data-toggle="modal"
+                        data-target="#deleteAddress"><i class="fa fa-trash" aria-hidden="true"></i> Adres
+                     Sil
+                     </button>
+                  </div>
+               </div>
+            </div>
+            <div class="py-3 pb-4 border-bottom">
+               <a class="btn btn-primary btn-block mr-3"
+                  href="{% url 'user_update' %}" style="text-decoration: none;color:white"><i class="fa fa-floppy-o"></i> Profili Düzenle</a>
+            </div>
+            
+               <div class="justify-content-between">
+                  <b class="float-start">Hesabımı Kapat</b> <br>
+                  <p class="float-start">Hesabınızı silerseniz kayıtlı olan tüm verileriniz silinecektir</p>
+                  <button type="button" class="btn btn-outline-danger float-end"data-toggle="modal" id="userdelete" data-target="#deleteUser"><i class="fa fa-trash mx-1" aria-hidden="true"></i>Hesabımı sil</button>
+               </div>
+            </div>
+      </div>
+      </div>
+          </div>
+      </div>
+    </div>
+      </div>
+    </div>
+
+    <!-- Delete User Modal -->
+      <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <b class="modal-title fs-2">Hesabımı Sil</b>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <p class="text-center fs-3">Hesabınızı Silmek İstediğinizden Emin Misiniz?</p>
+                  <p class="text-center fs-3 text-danger">Hesabınızı silerseniz kayıtlı olan tüm verileriniz silinecektir</p>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Vazgeç</button>
+                     <a href="{% url 'userdelete' %}" type="button" class="btn btn-outline-danger text-decoration-none">
+                        <i class="fa fa-trash"aria-hidden="true"></i>
+                        Sil
+                     </a>
+               </div>
+            </div>
+         </div>
+      </div>
+        
+      <!-- DELETE ADDRESS MODAL -->
+      <div class="modal fade" id="deleteAddress" tabindex="-1" role="dialog" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <b class="modal-title fs-3">Adres Sil</b>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body text-center fs-4">
+                  Adresi Silmek İstediğinizden Emin Misiniz?
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Vazgeç</button>
+                  <a href="{% url 'adressDelete' %}" type="button" class="btn btn-outline-danger"><i class="fa fa-trash"
+                     aria-hidden="true"></i> Sil
+                  </a>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Addrwss Ekle -->
+      <div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <b class="modal-title fs-3">Adres Ekle</b>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body m-auto">
+               <form action="{% url 'profile' %}" method="post">
+                  {{ adresForm }}
+                  {% csrf_token %}
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Kapat</button>
+                     <button type="submit" class="btn btn-outline-success"> Adres Ekle</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      </div>
+      </div>
+
+
+<section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+   {% include 'includes/_messages.html' %}
+</section>
+
+ <!-- Footer Start -->
+ {% include 'includes/_footer.html' %}
+ <!-- Footer End -->
+
+ {% include 'includes/_mobile-menu.html' %}
+
+ {% endblock content %}

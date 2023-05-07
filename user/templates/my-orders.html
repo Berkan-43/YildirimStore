@@ -1,0 +1,82 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<header class="header">
+    {% include 'includes/_topbar.html' %}<!-- End .header-top -->
+
+    {% include 'includes/_navbar.html' %}
+    
+    <!-- End .header-middle navbarend-->
+</header><!-- End .header -->
+
+<main class="main bg-lighter">
+    <div class="  pt-5 pb-6">
+        <div class="container">  
+            <div class="form-content my-3 p-3">
+        <div class="row justify-content-center">
+            {% include 'includes/dashboard_sidebar.html' %}
+                <main class="col-lg-8">
+                    <article class="card">
+                        <header class="card-header">
+                            <strong class="d-inline-block mr-1 mt-5">Siparişleriniz</strong>
+                        </header>
+                        {% if orders %}
+                        <div class="card-body col">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Sipariş Kodu</th>
+                                            <th scope="col">İsim</th>
+                                            <th scope="col">Sipariş Tutarı</th>
+                                            <th scope="col">Sipariş Tarihi</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                                
+                                            {% for order in orders %}
+                                                <tr>
+                                                    <th scope="row"><a href="{% url 'url_orderDetail' order.order_number %}"
+                                                                       style="color: black">{{ order.order_number }}</a>
+                                                    </th>
+                                                    <td>{{ order.first_name|title }} </td>
+                                                    <td>₺ {{ order.order_total }}</td>
+                                                    <td>{{ order.created_date|date:"d/m/Y H:s" }}</td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            
+                                                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <tr class="justify-content-center text-center m-auto text-align-center">
+                            <th>Siparişiniz bulunmuyor.</th>
+                        </tr>
+                        {% endif %}
+                    </article>
+                </main>
+            </div>
+        </div>
+        </div>
+    </div>
+</main>
+
+
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'includes/_messages.html' %}
+    </section>
+    {% include 'includes/_footer.html' %}
+    
+    
+    {% include 'includes/_mobile-menu.html' %}
+{% endblock content %}
+
+
+

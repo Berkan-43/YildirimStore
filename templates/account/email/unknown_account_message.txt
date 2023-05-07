@@ -1,0 +1,12 @@
+{% extends "account/email/base_message.txt" %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% blocktrans %}Bu e-postayı siz veya bir başkası talepte bulunduğu için alıyorsunuz.
+kullanıcı hesabınız için şifre. Ancak, herhangi bir kullanıcı kaydımız yok.
+veritabanımızda e-posta {{ email }} ile.
+
+Parola sıfırlama talebinde bulunmadıysanız, bu posta güvenle göz ardı edilebilir.
+
+Eğer sizseniz, aşağıdaki bağlantıyı kullanarak bir hesaba kaydolabilirsiniz.{% endblocktrans %}
+
+{{ signup_url }}{% endautoescape %}{% endblock %}

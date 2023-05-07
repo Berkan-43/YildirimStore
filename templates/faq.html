@@ -1,0 +1,228 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    {% block title %}
+    <title>Ara  >>>  {{setting.company}}</title>
+    {% endblock title %}
+
+    {% block head %}
+    <link rel="shortcut icon" type="image/x-icon" href="{{setting.icon.url}}">
+    {% endblock head %}
+
+    {% block content %}
+    <div class="page-wrapper">
+        <header class="header">
+            {% include 'includes/_topbar.html' %}<!-- End .header-top -->
+
+            {% include 'includes/_navbar.html' %}
+            
+            <!-- End .header-middle navbarend-->
+        </header><!-- End .header -->
+
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">S.S.S<span>
+                        Sıkça Sorulan Sorular</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Anasayfa</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sıkça Sorulan Sorular</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                	<h2 class="title text-center mb-3">Kargo</h2><!-- End .title -->
+        			<div class="accordion accordion-rounded" id="accordion-1">
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading-1">
+					            <h2 class="card-title">
+					                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+					                    Ürünüm kargoda hasarlandı. Tazmin sürecini nasıl başlatabilirim?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-1">
+					            <div class="card-body">
+					                Çıkışını yapmış olduğunuz üründe taşıma esnasında hasar/kırık/kayıp vb. olması durumunda, alıcınızın ürünü teslim alırken kargo görevlisi ile birlikte kontrol etmesi ve ilgili durumu “hasar tespit” tutanağı ile kanıtlaması gerekir. İlgili tutanak doğrultusunda çıkış yapmış olduğunuz kargo şubesi ile tazmin işlemini başlatabilirsiniz.
+                                    Not: Değerli eşya, sıvı ve cam ürünler tazmin kapsamına girmemektedir.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading-2">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
+                                        Siparişim teslim edildi ancak kargolandı statüsünde gözükmüyor. Ne yapmalıyım?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-1">
+					            <div class="card-body">
+					                Kargo şablonunda bulunan 15 haneli kampanya kodunun, kargo şubesi tarafından kullanılması durumunda sipariş doğru takip numarası ile otomatik olarak güncellenir. Bu şekilde sipariş, “Onaylandı" statüsünden "Kargolandı" statüsüne geçecektir.
+                                    “Kargolandı” statüsünden sonraki sürece müdahalemiz bulunmamaktadır. Müşteri onayıyla veya sistemin belirlediği sürenin (3 iş günü + 24 saat) dolmasıyla sipariş “Tamamlandı” statüsüne geçecektir.
+                                    “Teslim Edildi” statüsü, ara bir statüdür. Gönderim sürenizi veya mağaza puanınızı etkilemez.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading-3">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
+                                        “Toplama Talep Et” butonunu kullandım, lojistik firması ürünlerimi ne zaman alacak?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-1">
+					            <div class="card-body">
+					                Toplama Talebi yaptığınız siparişleri, Ceva Lojistik ,Horoz Lojistik ve Borusan Lojistik firması depo adresinizden teslim alacaktır. Toplanmasını talep ettiğiniz ürünlerin yanındaki butonda “Toplama Talebi” metnini göreceksiniz.
+                                    “Toplama Talebi” oluşturduktan sonra, lojistik firması ürünlerinizi 3 iş günü içerisinde alacaktır.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading-4">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
+					                    Gönderim adresi teslim dışı ise siparişi nasıl kargolarım?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-1">
+					            <div class="card-body">
+					                “Mağaza Öder” seçeneğiyle gönderim yapıyorsanız, Kod Oluştur butonunu kullanarak kargo firmasını değiştirebilir ve müşterinizin adresine teslimat sağlayan kargo firmasıyla gönderim sağlayabilirsiniz.
+                                    “Şartlı Ödeme” seçenekli gönderilerinizde ise, n11 sipariş numaranızı inceleme için tarafımıza iletebilirsiniz
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+					</div><!-- End .accordion -->
+
+                	<h2 class="title text-center mb-3">Sipariş Yönetimi</h2><!-- End .title -->
+        			<div class="accordion accordion-rounded" id="accordion-2">
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading2-1">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse2-1" aria-expanded="false" aria-controls="collapse2-1">
+					                    Mağazama gelen iade talebini nasıl görüntüleyebilirim?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse2-1" class="collapse" aria-labelledby="heading2-1" data-parent="#accordion-2">
+					            <div class="card-body">
+					                Satıcı ofisiniz üzerinden sipariş yönetimi > İptal / İade / Değişim sekmesine tıklayıp “Ürün İadesi” kısmını seçiniz. İade arama kısmında “Sipariş detayı” başlığı altından “Sipariş Kodu” seçeneğini seçip sipariş kodu ile arama yapabilirsiniz. Arama yapıldığında iade talebini görüntüleyeceksiniz.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading2-2">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse2-2" aria-expanded="false" aria-controls="collapse2-2">
+                                        İade talebini kargo kampanya kodu ile reddetim fakat iade panelde reddedilmedi sebebi nedir ?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse2-2" class="collapse" aria-labelledby="heading2-2" data-parent="#accordion-2">
+					            <div class="card-body">
+					                Iade talebini kargo kampanya kodu ile reddedecekseniz, iadeyi kargo kampanya kodu ile reddet butonuna bastıktan sonra sistem tarafından kargo kampanya kodu oluşmaktadır.
+                                    İade reddedinin gerçekleşmesi için süre içerisinde ürünü kargoya teslim etmeniz gerekmektedir. Kargo kampanya kodu ile reddedilen ürünlerin kargoya teslim edilmemesi durumunda siparişin iadesi reddedilmememektedir süre sonunda iade sistem tarafından onaylanmaktadır.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading2-3">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse2-3" aria-expanded="false" aria-controls="collapse2-3">
+					                    Alıcı iade veya değişim talebi açtığında kargo ücreti kim tarafından karşılanmaktadır ?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse2-3" class="collapse" aria-labelledby="heading2-3" data-parent="#accordion-2">
+					            <div class="card-body">
+					                E-ticaret yasası gereği cayma hakkı değil tüm iade ve değişim işlemlerinde kargo ücretleri satıcılara aittir. 
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+					</div><!-- End .accordion -->
+
+                	<h2 class="title text-center mb-3">Muhasebe</h2><!-- End .title -->
+                	<div class="accordion accordion-rounded" id="accordion-3">
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading3-1">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse3-1" aria-expanded="false" aria-controls="collapse3-1">
+					                    Ödemem başarısız görünüyor, sebebi nedir ?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse3-1" class="collapse" aria-labelledby="heading3-1" data-parent="#accordion-3">
+					            <div class="card-body">
+					                Uzlaşma bedellerinin başarılı bir şekilde hesabınıza aktarılması için ; banka hesap bilgilerinizin n11 üyelik bilgilerinize girmiş olduğunuz firma bilgilerinizle uyuşması gerekmektedir.
+                                    Banka hesabınızda yer alan Firma Bilgisi, Vergi Numaranız, Banka Hesap Adınız, IBAN numaranız ile üyelik bilgilerinizde yer alan, aynı alanların birebir uyuşması gerekmektedir.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading3-2">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse3-2" aria-expanded="false" aria-controls="collapse3-2">
+					                    Sipariş ödemeleri banka hesaplarına ne zaman aktarılmaktadır ?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse3-2" class="collapse" aria-labelledby="heading3-2" data-parent="#accordion-3">
+					            <div class="card-body">
+					                Sipariş bedeli, siparişin alıcıya tesliminden itibaren maksimum 15 iş günü içerisinde, komisyon, pazarlama hizmet bedeli ve pazaryeri hizmet bedeli mahsup edilmiş olarak, mağaza hesabınıza transfer edilir.
+                                    Ürün bedeli, mağaza hesabına aktarılmadan önce n11 komisyon bedeli, pazarlama hizmet bedeli ve pazaryeri hizmet bedeli kesilir.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+
+					    <div class="card card-box card-sm bg-light">
+					        <div class="card-header" id="heading3-3">
+					            <h2 class="card-title">
+					                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse3-3" aria-expanded="false" aria-controls="collapse3-3">
+                                        Taksitli işlem ödemesi nasıl gerçekleştirilir ?
+					                </a>
+					            </h2>
+					        </div><!-- End .card-header -->
+					        <div id="collapse3-3" class="collapse" aria-labelledby="heading3-3" data-parent="#accordion-3">
+					            <div class="card-body">
+                                    Fatura Şablonunuzda bulunan "Vade Farkı" taksitli siparişlerden doğan satış bedeline eklenen tutardır.
+                                    Satıcı ofisde Siparişin Fatura Şablonunda belirtildiği şekilde ürün bedelinin faturasını kesebilirsiniz. Biz de size bu bedeli komisyon faturasında fatura ediyoruz, bu bedel satıcı için nötr bir işlem olarak tamamlanır.
+					            </div><!-- End .card-body -->
+					        </div><!-- End .collapse -->
+					    </div><!-- End .card -->
+					</div><!-- End .accordion -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+
+
+
+
+    </div>
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'includes/_messages.html' %}
+     </section>
+     
+      <!-- Footer Start -->
+      {% include 'includes/_footer.html' %}
+      <!-- Footer End -->
+     
+      {% include 'includes/_mobile-menu.html' %}
+    {% endblock content %}
+        

@@ -1,0 +1,189 @@
+{% load static %}
+{% load mptt_tags %}
+<div class="header-middle sticky-header">
+    <div class="container">
+        <div class="header-left">
+            <button class="mobile-menu-toggler">
+                <span class="sr-only">Toggle mobile menu</span>
+                <i class="icon-bars"></i>
+            </button>
+
+            <a href="{% url 'index' %}" class="logo">
+                <img src="{% static 'assets/images/logo.png' %}" alt="Molla Logo" width="105" height="25">
+            </a>
+
+            <nav class="main-nav">
+                <ul class="menu sf-arrows">
+                    {% recursetree global_categories %}
+                    <li>
+                        <a href="{{ node.get_absolute_url }}" title="{{ node.title }}" {% if not node.is_leaf_node %} class="sf-with-ul"  {% endif %} >{{ node.title }}</a>
+
+                        <div class="megamenu megamenu-sm">
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                    {% if not node.is_leaf_node %}
+                                    <div class="menu-col">
+                                        <div class="menu-title">{{ node.title }}</div><!-- End .menu-title -->
+                                        <ul>
+                                            <li><a href="{{ node.get_absolute_url }}">{{ children }}</a></li>    
+                                        </ul>
+                                    </div><!-- End .menu-col -->
+                                </div><!-- End .col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="banner banner-overlay">
+                                        <a href="#">
+                                            <img src="{{node.image.url}}" alt="Banner">
+
+                                            <div class="banner-content banner-content-bottom">
+                                                <div class="banner-title text-white"><br><span><strong></strong></span></div><!-- End .banner-title -->
+                                            </div><!-- End .banner-content -->
+                                        </a>
+                                    </div><!-- End .banner -->
+                                    {% endif %}
+                                </div><!-- End .col-md-6 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .megamenu megamenu-sm -->
+                    </li>
+                    {% endrecursetree %}
+                </ul><!-- End .menu -->
+            </nav><!-- End .main-nav -->
+        </div><!-- End .header-left -->
+
+        <div class="header-right">
+            <div class="header-search">
+                <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                <form action="{% url 'search'%}" method="GET">
+                    {% csrf_token %}
+                    <div class="header-search-wrapper">
+                        <label for="tags" class="sr-only">Ara</label>
+                        <input id="tags" type="text" class="form-control" placeholder="Ürün Ara" name="query" value="{{request.GET.query}}">
+                    </div><!-- End .header-search-wrapper -->
+                </form>
+            </div><!-- End .header-search -->
+            
+            {% if request.user.is_authenticated %}
+            <div class="dropdown cart-dropdown">
+                <div  id="data">
+                <a href="{% url 'shoppingcart' %}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <i class="icon-shopping-cart"></i>
+                    <span class="cart-count cart-items">{{ request.session.cart_items }}</span>
+                </a>
+                
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% if products %}
+                    <div class="dropdown-cart-products" id="cart_items">
+                        {% for product_ in products %}
+                        <div class="product">
+                            <div class="product-cart-details">
+                                <h4 class="product-title">
+                                    <a href="{% url 'detail' product_.product.id product_.product.newSlug %}">{{ product_.product.productTitle }}</a>
+                                </h4>
+                                <span class="cart-product-info">
+                                    <span class="cart-product-qty cart-quantity-input">{{ product_.amount }}</span>
+                                    x <span class="cart-price">{{ product_.product.productPrice }} TL</span>
+                                </span>
+                                {% if product_.product.stock <= 0 %}
+                                    <p style="color:#ff4d4d;"><i>Tükendi</i></p>
+                                {% else %}
+                                {% endif %}
+                            </div><!-- End .product-cart-details -->
+
+                            <figure class="product-image-container">
+                                <a href="{% url 'detail' product_.product.id product_.product.newSlug %}" class="product-image cart-image">
+                                    <img src="{{ product_.product.productImage.url }}" alt="product">
+                                </a>
+                            </figure>
+                            <!-- <a class="btn-remove update-cart-amount" data-product="{{ product_.product.id }}" type="submit" data-action="remove" title="Favorilerden sil"><i class="icon-close"></i></a> -->
+                        </div><!-- End .product -->
+                        
+                        {% endfor %}
+                        
+                        
+                    </div><!-- End .cart-product -->
+
+                    <div class="dropdown-cart-total">
+                        <span>Toplam</span>
+                        
+                        <span class="cart-total-price">{{total}} TL</span>
+                    </div><!-- End .dropdown-cart-total -->
+                    
+                    <div class="dropdown-cart-action">
+                        <a href="{% url 'shoppingcart' %}" class="btn btn-primary">Sepete Git</a>
+                        <a href="{% url 'url_checkout' %}" class="btn btn-outline-primary-2"><span>Sipariş Ver</span><i class="icon-long-arrow-right"></i></a>
+                    </div><!-- End .dropdown-cart-total -->
+                    {% else %}
+                    <p class="text-black text-center">Sepetinizde Hiç Ürün Yok.</p>
+                    {% endif %}
+                </div><!-- End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+        </div>
+            
+            <div class="dropdown cart-dropdown">
+                <div id="fav-data">
+                <a href="{% url 'favories' %}" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <i class="icon-heart-o"></i>
+                    <span class="cart-count">{{request.session.favories_items}}</span>
+                </a>
+                
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% if favorites %}
+                    <div class="dropdown-cart-products" id="cart_items">
+                        {% for favorite in favorites %}
+                        <div class="product">
+                            <div class="product-cart-details">
+                                <h4 class="product-title">
+                                    <a href="{% url 'detail' favorite.product.id favorite.product.newSlug %}">{{ favorite.product.productTitle|safe }}</a>
+                                </h4>
+                                <span class="cart-product-info">
+                                    <span class="cart-price">{{ favorite.product.productPrice }} TL</span>
+                                </span>
+                            </div><!-- End .product-cart-details -->
+                            
+                            <figure class="product-image-container">
+                                <a href="{% url 'detail' favorite.product.id favorite.product.newSlug %}" class="product-image cart-image">
+                                    <img src="{{ favorite.product.productImage.url }}" alt="product">
+                                </a>
+                            </figure>
+                            <!-- <a class="btn-remove update-favorite" data-product="{{ favorite.id }}" data-action="remove" type="submit" title="Favorilerden sil"><i class="icon-close"></i></a> -->
+                        </div><!-- End .product -->
+                        {% endfor %}
+                        
+                    </div><!-- End .cart-product -->
+                    <div class="dropdown-cart-action">
+                        <a href="{% url 'favories' %}" class="btn btn-primary w-100"><span>Favorilere Git</span><i class="icon-long-arrow-right"></i></a>
+                    </div><!-- End .dropdown-cart-total -->
+                    {% else %}
+                    <p class="text-black text-center">Favorilerinizde Hiç Ürün Yok.</p>
+                    {% endif %}
+                </div><!-- End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+
+            
+            {% else %}
+            <div class="dropdown cart-dropdown">
+                <a href="{% url 'shoppingcart' %}" class="dropdown-toggle" id="menu-cart-button" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <i class="icon-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <p class="text-black text-center">Sepetinize bakabilmek için giriş yapın.</p>
+                </div><!-- End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+
+            <div class="dropdown cart-dropdown">
+                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                    <i class="icon-heart-o"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-cart-products">
+                    
+                    <p class="text-black text-center">Favorilerinize bakabilmek için giriş yapın.</p>
+                </div><!-- End .dropdown-menu -->
+            </div><!-- End .cart-dropdown -->
+            {% endif %}
+    </div><!-- End .container -->
+</div>
+</div><!-- End .header-right -->
+
+</div>

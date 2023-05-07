@@ -1,0 +1,840 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+{% block CSS %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Site title -->
+    <title>{{product.productTitle}}</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'detail/img/favicon.ico' %}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'detail/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font-Awesome CSS -->
+    <link href="{% static 'detail/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- helper class css -->
+    <link href="{% static 'detail/css/helper.min.css' %}" rel="stylesheet">
+    <!-- Plugins CSS -->
+    <link href="{% static 'detail/css/plugins.css' %}" rel="stylesheet">
+    <!-- Main Style CSS -->
+    <link href="{% static 'detail/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'detail/css/skin-default.css' %}" rel="stylesheet" id="galio-skin">
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/favicon-16x16.png' %}">
+
+    <!-- Toast Message start -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <!-- Toast Message End -->
+
+    <link rel="manifest" href="{% static 'assets/images/icons/site.html' %}">
+    <link rel="mask-icon" href="{% static 'assets/images/icons/safari-pinned-tab.svg' %}" color="#666666">
+    <link rel="shortcut icon" href="{% static 'assets/images/icons/favicon.ico' %}">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="{% static 'assets/images/icons/browserconfig.xml' %}">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"> -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="{% static 'assets/css/productsCSS.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/profileCSS.css' %}">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+</head>
+{% endblock CSS %}
+
+
+<body>
+    {% block content %}
+    
+    
+
+    <div class="page-wrapper box-layout">
+
+        <!-- header area start -->
+        <header class="header">
+            {% include 'includes/_topbar.html' %}<!-- End .header-top -->
+
+            {% include 'includes/_navbar.html' %}
+        </header>
+        <!-- header area end -->
+
+        <!-- breadcrumb area start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="breadcrumb-wrap">
+                            <nav aria-label="breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Anasayfa</a></li>
+                                    <li class="breadcrumb-item"><a href="#">Kampanyalar</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{product.productTitle}}</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb area end -->
+
+        <!-- product details wrapper start -->
+        <div class="product-details-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <!-- product details inner end -->
+                        <div class="product-details-inner">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="product-large-slider mb-20 slick-arrow-style_2">
+                                        {% for rs in images %}
+                                        <div style="cursor: crosshair;"  class="pro-large-img img-zoom">
+                                            <img src="{{rs.image.url}}" alt="" />
+                                        </div>
+                                        {% endfor %}
+                                        
+                                    </div>
+                                    <div class="pro-nav slick-padding2 slick-arrow-style_2">
+                                        {% for rs in images %}
+                                        <div class="pro-nav-thumb"><img src="{{rs.image.url}}" alt="" /></div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="product-details-des mt-md-34 mt-sm-34">
+                                        <h3>{{product.productTitle}}</h3>
+                                        <div class="ratings">
+                                            <span class="good"><i class="fa fa-star"></i></span>
+                                            <span class="good"><i class="fa fa-star"></i></span>
+                                            <span class="good"><i class="fa fa-star"></i></span>
+                                            <span class="good"><i class="fa fa-star"></i></span>
+                                            <span><i class="fa fa-star"></i></span>
+                                            <div class="pro-review">
+                                                <span>(  {{ comments.count }}  Yorum  )</span>
+                                            </div>
+                                        </div>
+                                        <div class="customer-rev">
+                                            <a href="#">(  {{ comments.count }}  Müşteri İncelemesi  )</a>
+                                        </div>
+                                        
+                                        <div class="pricebox">
+                                            <span class="regular-price">{{product.productPrice}} TL</span>
+                                        </div>
+                                        <p> Sürat Kargo - 19,99 TL
+                                            Mağazaya özel 95 TL ve üzeri Ücretsiz Kargo
+                                            En geç 3 iş günü içerisinde kargoya verilir.
+                                        </p>
+                                        {% if product.stock <= 0 %}
+                                            <span style="background-color:#ff4d4d;color:#4b4b4b;font-size: 20px;"><big><b><i>Stokta yok</i></b></big></span>
+                                            {% else %}
+                                             {% endif %}
+                                        {% if product.variations.colors %}
+                                        <div class="row">
+                                            <div class="item-option-select">
+                                                <h6>Renk Seçenekleri</h6>
+                                                <select name="color" class="form-control" required>
+                                                    {% for variation_ in product.variations.colors %}
+                                                        <option value="{{ variation_.variation_value | lower }}">{{ variation_.variation_value|title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                            
+                                        
+                                        {% if product.variations.sizes %}
+                                        <div class="row">
+                                            <div class="item-option-select">
+                                                <h6>Select Size</h6>
+                                                <select name="size" class="form-control">
+                                                    {% for variation_ in product.variations.sizes %}
+                                                        <option value="{{ variation_.variation_value|lower }}">{{ variation_.variation_value|capfirst }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                            
+                                        
+                                        <div class="quantity-cart-box d-flex align-items-center">
+                                            <div class="action_link float-start">
+                                                <a class="buy-btn update-cart"  data-product="{{ product.id }}" data-action="add"onclick="clickAddToCartButton(this); return false;">Sepete Ekle<i class="fa fa-shopping-cart"></i> </a>
+                                            </div>
+                                            
+                                            <div class="useful-links mx-3 float-end">
+                                            <a class="update-favorite" data-product="{{ product.id }}" data-action="add" onclick="clickAddToFavoriButton(this); return false;" data-toggle="tooltip" data-placement="top" title="Favorilere Ekle"><i class="fa fa-heart-o"></i>Favorilere Ekle</a>
+                                        </div>
+                                        </div>
+                                        
+                                            
+                                        
+                                        <div class="share-icon mt-20">
+                                            <a class="facebook" href="https://www.facebook.com/"><i class="fa fa-facebook"></i>like</a>
+                                            <a class="twitter" href="#"><i class="fa fa-twitter"></i>tweet</a>
+                                            <a class="pinterest" href="#"><i class="fa fa-pinterest"></i>save</a>
+                                            <a class="google" href="#"><i class="fa fa-google-plus"></i>share</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- product details inner end -->
+
+                        <!-- product details reviews start -->
+                        <div class="product-details-reviews mt-34">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="product-review-info">
+                                        <ul class="nav review-tab">
+                                            <li>
+                                                <a class="active" data-toggle="tab" href="#tab_one">Tanım</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#tab_two">Tüm Özellikler</a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle="tab" href="#tab_three">Yorumlar ({{comments.count}})</a>
+                                            </li>
+                                        </ul>
+                                        
+                                        <div class="tab-content reviews-tab">
+                                            <div class="tab-pane fade show active" id="tab_one">
+                                                <div class="tab-one">
+                                                    {{product.productDescription|safe}}
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_two">
+                                                {{product.productDetail|safe}}
+                                            </div>
+                                            <div class="tab-pane fade" id="tab_three">
+                                                <form action="{% url 'addcomment' product.id %}" method="POST" class="review-form">
+                                                    {% csrf_token %}
+                                                    {% for rs in comments %}
+                                                    <div class="total-reviews">
+                                                        <div class="rev-avatar">
+                                                            {% if profile.profile_image %}
+                                                            <img src="{{profile.profile_image.url}}" alt="kullanıcı resmi">
+                                                            {% else %}
+                                                            <img src="{% static 'assets/images/no-avatar.jpg' %}" alt="kullanıcı resmi">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="review-box">
+                                                            <!-- <span class="good"><i class="fa fa-star"></i></span> -->
+                                                            
+                                                            {% if rs.rate == 1 %}
+                                                            <div class="ratings">                                                                                                   
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            </div>
+                                                            {% else %}
+                                                            {% endif %}
+
+                                                            {% if rs.rate == 2 %}
+                                                            <div class="ratings">
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                            {% else %}
+                                                            {% endif %}
+
+                                                            {% if rs.rate == 3 %}
+                                                            <div class="ratings">
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                            {% else %}
+                                                            {% endif %}
+
+                                                            {% if rs.rate == 4 %}
+                                                            <div class="ratings">
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <i class="fa fa-star"></i> 
+                                                        </div>
+                                                            {% else %}                                                      
+                                                            {% endif %}
+
+                                                            {% if rs.rate == 5 %}
+                                                            <div class="ratings">
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                            <span class="good"><i class="fa fa-star"></i></span>
+                                                        </div>  
+                                                           {% else %}
+                                                            {% endif %}
+
+                                                            
+                                                            
+                                                            <div class="post-author">
+                                                                <p><span>{{rs.user.username}} -</span> {{rs.create_att|date:"d/m/Y H:s"}}</p>
+                                                            </div>
+                                                            <p>{{rs.comment}}</p>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label class="col-form-label"><span class="text-danger">*</span>Subject</label>
+                                                            <input type="text" class="form-control" name="subject"  required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label class="col-form-label"><span class="text-danger">*</span> Yorumunuzu Yazınız</label>
+                                                            <textarea class="form-control"name="comment" cols="30" rows="5" required></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label class="col-form-label"><span class="text-danger">*</span> Derecelendirme</label>
+                                                            &nbsp;&nbsp;&nbsp; Kötü&nbsp;
+                                                            <input type="radio" value="1" name="rate">
+                                                            &nbsp;
+                                                            <input type="radio" value="2" name="rate">
+                                                            &nbsp;
+                                                            <input type="radio" value="3" name="rate">
+                                                            &nbsp;
+                                                            <input type="radio" value="4" name="rate">
+                                                            &nbsp;
+                                                            <input type="radio" value="5" name="rate">
+                                                            &nbsp;Güzel
+                                                        </div>
+                                                    </div>
+                                                    {% if user.id is not None %}
+                                                    <div class="buttons">
+                                                        <button class="sqr-btn" type="submit">YORUM EKLE</button>
+                                                    </div>
+                                                        {% else %}
+                                                        Yorum Yapmak İçin <a href="">Giriş</a> Yapın!
+                                                        {% endif %}
+                                                </form> <!-- end of review-form -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- product details reviews end --> 
+
+                        <!-- related products area start -->
+                        <div class="related-products-area mt-34">
+                            <div class="section-title mb-30">
+                                <div class="title-icon">
+                                    <i class="fa fa-desktop"></i>
+                                </div>
+                                <h3>İlgili Ürünler</h3>
+                            </div> <!-- section title end -->
+                            <!-- featured category start -->
+                            <div class="featured-carousel-active slick-padding slick-arrow-style">
+                                <!-- product single item start -->
+                                
+                                {% for rs in related_products %}
+                                <div class="product-item fix">
+                                    <div class="product-thumb">
+                                        <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                            <img src="{{rs.productImage.url}}" class="img-pri" alt="">
+                                        </a>
+                                        
+                                            {% if rs.stock <= 0 %}
+                                            <span class="product-label label-sale">Stokta yok</span>
+                                            {% else %}
+                                             {% endif %}
+                                        
+                                        <div class="product-action-link">
+                                            <a class="update-cart" data-toggle="tooltip" data-placement="left" title="Sepete Ekle"  data-product="{{ rs.id }}" data-action="add"onclick="clickAddToCartButton(this); return false;"><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="update-favorite" data-toggle="tooltip" data-placement="left" title="Favorilere Ekle"  data-product="{{ rs.id }}" data-action="add"onclick="clickAddToFavoriButton(this); return false;"><i class="fa fa-heart-o"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h4><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h4>
+                                        <div class="pricebox">
+                                            <span class="regular-price">{{rs.productPrice}} TL</span>
+                                            <div class="ratings">
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span class="good"><i class="fa fa-star"></i></span>
+                                                <span><i class="fa fa-star"></i></span>
+                                                <div class="pro-review">
+                                                    <span>(  {{ related_comments.count }}  ) Müşteri İncelemeleri</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- product single item end -->
+                                
+                            </div>
+                            <!-- featured category end -->
+                        </div>
+                        <!-- related products area end -->
+                    </div>
+                    <!-- sidebar start -->
+                    <div class="col-lg-3">
+                        <div class="shop-sidebar-wrap fix mt-md-22 mt-sm-22">
+                            <!-- featured category start -->
+                            <div class="sidebar-widget mb-22">
+                                <div class="section-title-2 d-flex justify-content-between mb-28">
+                                    <h3>Popüler</h3>
+                                    <div class="category-append"></div>
+                                </div> <!-- section title end -->
+                                <div class="category-carousel-active row" data-row="4">
+                                    {% for rs in related_products %}
+                                    <div class="col">
+                                        <div class="category-item">
+                                            <div class="category-thumb">
+                                                <a href="{% url 'detail' rs.id rs.newSlug %}">
+                                                    <img src="{{rs.productImage.url}}" alt="">
+                                                </a>
+                                            </div>
+                                            {% if rs.stock <= 0 %}
+                                            <span class="product-label label-sale">Stokta yok</span>
+                                            {% else %}
+                                             {% endif %}
+                                            <div class="category-content">
+                                                <h4><a href="{% url 'detail' rs.id rs.newSlug %}">{{rs.productTitle|safe}}</a></h4>
+                                                <div class="price-box">
+                                                    <div class="regular-price">
+                                                        {{rs.productPrice}} TL
+                                                    </div>
+                                                    <!-- <div class="old-price">
+                                                        <del>$180.00</del>
+                                                    </div> -->
+                                                </div>
+                                                <div class="ratings">
+                                                    <span class="good"><i class="fa fa-star"></i></span>
+                                                    <span class="good"><i class="fa fa-star"></i></span>
+                                                    <span class="good"><i class="fa fa-star"></i></span>
+                                                    <span class="good"><i class="fa fa-star"></i></span>
+                                                    <span><i class="fa fa-star"></i></span>
+                                                    <div class="pro-review">
+                                                        <span>(  {{ related_comments.count }}  Müşteri İncelemeleri)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- end single item -->
+                                    </div> <!-- end single item column -->
+                                    {% endfor %}
+                                    
+                                </div>
+                            </div>
+                            <!-- featured category end -->
+
+                            <!-- manufacturer start -->
+                            
+                            <div class="sidebar-widget">
+                                <div class="sidebar-title mb-3">
+                                    <h3>Satıcılar</h3>
+                                </div>
+                                <div class="sidebar-widget-body">
+                                    <ul>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">calvin klein</a><span>(10)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">diesel</a><span>(12)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">polo</a><span>(20)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">Tommy Hilfiger</a><span>(12)</span></li>
+                                        <li><i class="fa fa-angle-right"></i><a href="#">Versace</a><span>(16)</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- manufacturer end -->
+
+                            <!-- product tag start -->
+                            <div class="sidebar-widget mb-22 mt-22">
+                                <div class="sidebar-title mb-20">
+                                    <h3>Etiketler</h3>
+                                </div>
+                                <div class="sidebar-widget-body">
+                                    <div class="product-tag">
+                                        
+                                        {% for tag in product.productTag.all %}
+                                        <a>{{ tag }}</a>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- product tag end -->
+
+                            <!-- sidebar banner start -->
+                            <div class="sidebar-widget mb-22">
+                                <div class="img-container fix img-full mt-30">
+                                    <a href="#"><img src="{% static 'detail/img/banner/banner_shop.jpg' %}" alt=""></a>
+                                </div>
+                            </div>
+                            <!-- sidebar banner end -->
+                        </div>
+                    </div>
+                    <!-- sidebar end -->
+                </div>
+            </div>
+        </div>
+        <!-- product details wrapper end -->
+
+
+        <!-- brand area start -->
+        <div class="brand-area pt-34 pb-30 pt-md-14 pt-sm-14">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title mb-30">
+                            <div class="title-icon">
+                                <i class="fa fa-crop"></i>
+                            </div>
+                            <h3>Popüler Markalar</h3>
+                        </div> <!-- section title end -->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="brand-active slick-padding slick-arrow-style">
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br1.png' %}" alt=""></a>
+                            </div>
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br2.png' %}" alt=""></a>
+                            </div>
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br3.png' %}" alt=""></a>
+                            </div>
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br4.png' %}" alt=""></a>
+                            </div>
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br5.png' %}" alt=""></a>
+                            </div>
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br6.png' %}" alt=""></a>
+                            </div>
+                            <div class="brand-item text-center">
+                                <a href="#"><img src="{% static 'detail/img/brand/br4.png' %}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- brand area end -->
+    </div>
+
+    <!-- <table border="1" cellpadding="1" cellspacing="1" style="width:100%;">
+        <tbody>
+            <tr style="bottom: 15px; background-color: aliceblue;">
+                <td>Cinsiyet</td>
+                <td>Kadın</td>
+            </tr>
+            <tr style="bottom: 5px; background-color: rgb(185, 215, 241);">
+                <td>Sezon</td>
+                <td>Sonbahar-Kış</td>
+            </tr>
+            <tr style="bottom: 5px; background-color: aliceblue;">
+                <td>Renk</td>
+                <td>Siyah</td>
+            </tr>
+            <tr style="bottom: 5px; background-color: rgb(185, 215, 241);">
+                <td>Marka</td>
+                <td>Giybi</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p>&nbsp;</p> -->
+
+    {% include 'includes/_mobile-menu.html' %}
+
+        {% include 'includes/_footer.html' %}
+
+</main><!-- End .main -->
+
+
+    
+    <!-- Sign in / Register Modal -->
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Giriş Yap</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Üye Ol</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tab-content-5">
+                            <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                {% if login_form.errors %}
+                            <div class="alert-danger alert-dismissible text-center list-display-none" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in login_form.errors.items %}
+                                        <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                                <form action="{% url 'account_login' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="">Kullanıcı Adı</label>
+                                        {{ login_form.login }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="singin-password">Parola</label>
+                                        {{ login_form.password }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>GİRİŞ</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            {{ login_form.remember }}
+                                            <label class="custom-control-label" for="signin-remember">Beni Hatırla</label>
+                                        </div><!-- End .custom-checkbox -->
+
+                                        <a href="{% url 'account_reset_password' %}" class="forgot-link">Şifremi unuttum</a>
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">veya</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-login btn-g">
+                                                <i class="icon-google text-info"></i>
+                                                Google ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'github' method="oauth2" %}" class="btn btn-login btn-f">
+                                                <i class="icon-github text-black-50"></i>
+                                                GitHub ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                {% if register_form.errors %}
+                                <ul class="errorlist">
+                                    <li>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+                                        NOT: Halihazırda bir{{site_name}} hesabı ve hesabınızı bağlamak istiyorum {{provider_name}} hesap lütfen tıklayın {% endblocktrans %}
+                                    <a href="{% url 'socialaccount_connections' %}">{% trans " Burada" %}</a> önce oturum açmak için.</li>
+                                </ul>
+                            {% endif %}
+                                <form action="{% url 'account_singup' %}"method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="form-label">Kullanıcı Adı</label>
+                                        <!-- <input type="email" class="form-control" id="register-email" name="register-email" required> -->
+                                        {{ register_form.username }}
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-email">E-posta</label>
+                                        {{ register_form.email }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-password">Parola</label>
+                                        <!-- <input type="password" class="form-control" id="register-password" name="register-password" required> -->
+                                        {{ register_form.password1 }}
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-password">Parola Tekrarı</label>
+                                        <!-- <input type="password" class="form-control" id="register-password" name="register-password" required> -->
+                                        {{ register_form.password2 }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>ÜYE OL</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                            <label class="custom-control-label" for="register-policy"><a href="#">Gizlilik politikasını*</a> kabul ediyorum.</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">veya</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-login btn-g">
+                                                <i class="icon-google text-info"></i>
+                                                Google ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'github' method="oauth2" %}" class="btn btn-login btn-f">
+                                                <i class="icon-github text-black-50"></i>
+                                                GitHub ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .modal-body -->
+        </div><!-- End .modal-content -->
+    </div><!-- End .modal-dialog -->
+</div><!-- End .modal -->
+
+<!-- <table border="1" cellpadding="1" cellspacing="1" style="width:100%">
+	<tbody>
+		<tr>
+			<td style="background-color: aqua;">Cinsiyet</td>
+			<td style="background-color: aqua;">Kadın</td>
+		</tr>
+		<tr>
+			<td style="background-color: aquamarine;">Sezon</td>
+			<td style="background-color: aquamarine;">Sonbahar-Kış</td>
+		</tr>
+		<tr>
+			<td style="background-color: aqua;">Renk</td>
+			<td style="background-color: aqua;">Siyah</td>
+		</tr>
+		<tr>
+			<td style="background-color: aquamarine;">Marka</td>
+			<td style="background-color: aquamarine;">Giybi</td>
+		</tr>
+	</tbody>
+</table>
+
+<p>&nbsp;</p> -->
+
+
+
+
+
+
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'includes/_messages.html' %}
+    </section>
+
+    {% endblock content %}
+
+{% block Js %}
+
+    <!-- Toast Message start -->
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
+    <!-- <script src="https://unpkg.com/htmx.org@1.6.0"></script> -->
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<!-- Alpinejs -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+<!-- Toast Message End -->
+    <!--All jQuery, Third Party Plugins & Activation (main.js' %}) Files-->
+    <script src="{% static 'detail/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <!-- Jquery Min js' %} -->
+    <script src="{% static 'detail/js/vendor/jquery-3.3.1.min.js' %}"></script>
+    <!-- Popper Min js' %} -->
+    <script src="{% static 'detail/js/vendor/popper.min.js' %}"></script>
+    <!-- Bootstrap Min js' %} -->
+    <script src="{% static 'detail/js/vendor/bootstrap.min.js' %}"></script>
+    <!-- Plugins js' %}-->
+    <script src="{% static 'detail/js/plugins.js' %}"></script>
+    <!-- Ajax Mail js' %} -->
+    <script src="{% static 'detail/js/ajax-mail.js' %}"></script>
+    <!-- Active js' %} -->
+    <script src="{% static 'detail/js/main.js' %}"></script>
+    <!-- Switcher js' %} [Please Remove this when Choose your Final Projct] -->
+    <script src="{% static 'detail/js/switcher.js' %}"></script>
+    
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'assets/js/cart.js' %}"></script>
+    <script src="{% static 'assets/js/cartUpdate.js' %}"></script>
+    <script src="{% static 'assets/js/favorites.js' %}"></script>
+    <script type="text/javascript">
+        var user = '{{ request.user }}'
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+    </script>
+    {% endblock Js %}
+
+</body>
+</html>

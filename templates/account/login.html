@@ -1,0 +1,192 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load socialaccount %}
+
+
+    {% block title %}
+    <title>Giriş Yap  >>>  {{setting.company}}</title>
+    {% endblock title %}
+
+    {% block head %}
+    <link rel="shortcut icon" type="image/x-icon" href="{{setting.icon.url}}">
+    {% endblock head %}
+
+    <!-- Topbar Start -->
+    {% include 'includes/_topbar.html' %}
+
+    <div class="mt-3">
+        <a class="mt-3" href="{% url 'password_reset' %}"><i>Şifrenizi mi unuttunuz?</i></a>
+    </div>
+    <!-- Topbar End -->
+    {% block content %}
+    {% include 'includes/_navbar.html' %}
+
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHtml">
+        {% include 'includes/_messages.html' %}
+    </section>
+   
+       <!-- Sign in / Register Modal -->
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+
+                <div class="form-box">
+                    <div class="form-tab">
+                        <ul class="nav nav-pills nav-fill" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Giriş Yap</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Üye Ol</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="tab-content-5">
+                            <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                {% if login_form.errors %}
+                            <div class="alert-danger alert-dismissible text-center list-display-none" role="alert">
+                                <div id="form_errors">
+                                    {% for key, value in login_form.errors.items %}
+                                        <strong>{{ value }}</strong>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                                <form action="{% url 'account_login' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="singin-email">Kullanıcı Adı</label>
+                                        {{ login_form.login }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="singin-password">Password *</label>
+                                        {{ login_form.password }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>LOG IN</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            {{ login_form.remember }}
+                                            <label class="custom-control-label" for="signin-remember">Beni Hatırla</label>
+                                        </div><!-- End .custom-checkbox -->
+
+                                        <a href="{% url 'account_reset_password' %}" class="forgot-link">Şifremi unuttum</a>
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">veya</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-login btn-g">
+                                                <i class="icon-google"></i>
+                                                Google ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'github' method="oauth2" %}" class="btn btn-login btn-f">
+                                                <i class="icon-github"></i>
+                                                GitHub ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                {% if register_form.errors %}
+                                <ul class="errorlist">
+                                    <li>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}
+                                        NOT: Halihazırda bir{{site_name}} hesabı ve hesabınızı bağlamak istiyorum {{provider_name}} hesap lütfen tıklayın {% endblocktrans %}
+                                    <a href="{% url 'socialaccount_connections' %}">{% trans " Burada" %}</a> önce oturum açmak için.</li>
+                                </ul>
+                            {% endif %}
+                                <form action="{% url 'account_singup' %}"method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="form-label">Kullanıcı Adı</label>
+                                        <!-- <input type="email" class="form-control" id="register-email" name="register-email" required> -->
+                                        {{ register_form.username }}
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-email">Your email address *</label>
+                                        {{ register_form.email }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-group">
+                                        <label for="register-password">Parola</label>
+                                        <!-- <input type="password" class="form-control" id="register-password" name="register-password" required> -->
+                                        {{ register_form.password1 }}
+                                    </div>
+                                    <!-- End .form-group -->
+                                    <div class="form-group">
+                                        <label for="register-password">Parola Tekrarı</label>
+                                        <!-- <input type="password" class="form-control" id="register-password" name="register-password" required> -->
+                                        {{ register_form.password2 }}
+                                    </div><!-- End .form-group -->
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2">
+                                            <span>SIGN UP</span>
+                                            <i class="icon-long-arrow-right"></i>
+                                        </button>
+
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                            <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                        </div><!-- End .custom-checkbox -->
+                                    </div><!-- End .form-footer -->
+                                </form>
+                                <div class="form-choice">
+                                    <p class="text-center">veya</p>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'google' %}?next=/" class="btn btn-login btn-g">
+                                                <i class="icon-google"></i>
+                                                Google ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                        <div class="col-sm-6">
+                                            <a href="{% provider_login_url 'github' method="oauth2" %}" class="btn btn-login btn-f">
+                                                <i class="icon-github"></i>
+                                                GitHub ile giriş
+                                            </a>
+                                        </div><!-- End .col-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .form-choice -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .form-tab -->
+                </div><!-- End .form-box -->
+            </div><!-- End .modal-body -->
+        </div><!-- End .modal-content -->
+    </div><!-- End .modal-dialog -->
+</div><!-- End .modal -->
+
+<!--   <script type="text/javascript">
+    function reveal()
+    {
+    if(document.getElementById('box').checked)
+       {document.getElementById("pw").type='text';}
+    else
+    document.getElementById("pw").type='password';
+    }
+    </script>  -->
+
+      <!-- Footer Start -->
+      {% include 'includes/_footer.html' %}
+      <!-- Footer End -->
+  
+      {% endblock content %}

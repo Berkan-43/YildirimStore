@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load static %}
+    
+
+
+{% block content %}
+
+<header class="header">
+    {% include 'includes/_topbar.html' %} <!-- End .header-top -->
+
+    {% include 'includes/_navbar.html' %}
+    
+    <!-- End .header-middle navbarend-->
+</header>
+
+
+<main class="main">
+    <div class="error-content text-center" >
+        <div class="container">
+            <h1 class="error-title">Hata 404</h1><!-- End .error-title -->
+            <p>Üzgünüz, istediğiniz sayfa mevcut değil.</p>
+            <a href="{% url 'index' %}" class="btn btn-outline-primary-2 btn-minwidth-lg">
+                <span>ANASAYFAYA DÖN</span>
+                <i class="icon-long-arrow-right"></i>
+            </a>
+        </div><!-- End .container -->
+    </div><!-- End .error-content text-center -->
+</main>
+
+
+<section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+    {% include 'includes/_messages.html' %}
+</section>
+{% include 'includes/_footer.html' %}
+
+
+{% include 'includes/_mobile-menu.html' %}
+{% endblock content %}

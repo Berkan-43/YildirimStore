@@ -1,0 +1,184 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<header class="header">
+    {% include 'includes/_topbar.html' %} <!-- End .header-top -->
+
+    {% include 'includes/_navbar.html' %}
+    
+    <!-- End .header-middle navbarend-->
+</header><!-- End .header -->
+    
+    <section class="section-content padding-y bg">
+        <div class="container">
+            <div class="row">            
+            {% if product.stock == 0  %}
+               
+    <main class="main">
+        <div class="error-content text-center" >
+            <div class="container">
+                <h1 class="error-title"><b>Hay Aksi!</b> </h1><!-- End .error-title -->
+                <p class="error-text"> Maalesef bu üründen stokta kalmadı</p>
+                <a href="{% url 'index' %}" class="btn btn-outline-primary-2 btn-minwidth-lg mb-0">
+                    <span>Geri Git</span>
+                    <i class="icon-long-arrow-right"></i>
+                </a>
+            </div><!-- End .container -->
+        </div><!-- End .error-content text-center -->
+    </main>
+    {% else %}
+    <aside class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0 mt-0">Fatura Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                {% for order in orders %}
+                <p class="card-text mb-0">{{ order.first_name|title }}</p>
+                <p class="card-text mb-0">{{ order.last_name|title }}</p>
+                <p class="card-text mb-0">{{ order.email|lower }}</p>
+                <p class="card-text mb-0">{{ order.phone }}</p>
+            {% endfor %}
+            
+                
+                
+                {% if order.order_note %}
+                    <b>Sipariş Notu: </b> {{ order.order_note|title }}
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0 mt-0">Ödeme Yöntemleri</h5>
+            </div>
+            <div class="card-body">
+                <form class="card-details" action="{% url 'url_payment' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ order.order_number }}" name="order_number">
+                    <div class="form-group">
+                        <label class=" mt-1 mb-0">Kart Üstündeki İsim</label>
+                        <input type="text" name="card_name" class="form-control" placeholder="Name"
+                               size="17">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="">Kart Numarası</label>
+                        <input type="text" name="card_number" class="form-control mb-3"
+                               placeholder="1234 5678 9012 3457" size="17" id="cno" minlength="19"
+                               maxlength="19">
+                    </div>
+                    <div class="form-group pt-2">
+                        <div class="row d-flex">
+                            <div class="col-sm-4">
+                                <label class=" mb-0 mt-0">Tarih</label>
+                                <input class="form-control" type="text" name="card_exp"
+                                       placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7">
+                            </div>
+                            <div class="col-sm-3">
+                                <label class=" mb-0">Cvv</label>
+                                <input type="password" class="form-control" name="card_cvv"
+                                       placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3"
+                                       maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Ürün Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless table-shopping-cart">
+                    <thead class="text-muted">
+                    <tr class="small text-uppercase">
+                        <th scope="col">Ürün</th>
+                        <th scope="col">Adet</th>
+                        <th scope="col" style="width: 100px">Fiyat</th>
+                        <th scope="col" class="text-right"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {# START PRODUCT #}
+                    {% for cart_item in cart_items %}
+                        <tr>
+                            <td>
+                                <figure class="itemside align-items-center">
+                                    <div class="aside"><img style="width:100px;" src="{{cart_item.product.productImage.url}}"
+                                                            class="img-sm"></div>
+                                    <figcaption class="info">
+                                        <a href=""
+                                           class=" text-dark">{{ cart_item.product.productTitle|title }}</a>
+                                        <p class="text-muted small">
+                                            {% if cart_item.variations.all %}
+                                                {% for variation in cart_item.variations.all %}
+                                                    {{ variation.variation_category|title }} :
+                                                    {{ variation.variation_value|title }}
+                                                    <br>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </p>
+                                    </figcaption>
+                                </figure>
+                            </td>
+                            <td>
+                                <label for="">{{ cart_item.amount }}</label>
+                            </td>
+                            <td>
+                                <div class="">
+                                    <var class="price">₺ {{ cart_item.get_sub_total }}</var>
+                                    <!-- <small class="text-muted">Adet: ₺{{ cart_item.product.productPrice }} </small> -->
+                                    {% if cart_item.product.productShipping == 0 %}
+									{% else %}
+										<p class="text-success ms-2">Ücretsiz Kargo</p>
+									{% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {# END PRODUCT #}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </aside>
+    <aside class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <dl class="dlist-align">
+                    <dt>Toplam Viyat:</dt>
+                    <dd class="text-right"> ₺ {{ total }}</dd>
+                </dl>
+                <dl class="dlist-align">
+                    <dt>Vergi :</dt>
+                    <dd class="text-right"> ₺ {{ tax }}</dd>
+                </dl>
+                <dl class="dlist-align">
+                    <dt>Genel Toplam:</dt>
+                    <dd class="text-right text-dark b"><strong> ₺ {{ grand_total }}</strong></dd>
+                </dl>
+                <hr>
+                <p class="text-center mb-3">
+                    <img src="{% static 'assets/images/payments.png' %}" height="26">
+                </p>
+                <button type="submit" class="btn btn-primary btn-block"> Ödeme Yap</button>
+            </div>
+            </form>
+        </div>
+    </aside>
+    
+    {% endif %}
+
+</div>
+</div>
+</section>
+    <section id="messages" hx-swap-oob="true" hx-swap="innerHTML">
+        {% include 'includes/_messages.html' %}
+    </section>
+    {% include 'includes/_footer.html' %}
+    
+    
+    {% include 'includes/_mobile-menu.html' %}
+{% endblock content %}

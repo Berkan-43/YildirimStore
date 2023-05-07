@@ -1,0 +1,7 @@
+{% extends "account/email/base_message.txt" %}
+{% load account %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% user_display user as user_display %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Bu e-postayı{{ user_display }} kullanıcısı e-posta adresinizi kayıt olmanız için verdiği için alıyorsunuz. {{ site_domain }}.
+
+Bunun doğru olduğunu onaylamak için şuraya gidin: {{ activate_url }}{% endblocktrans %}{% endautoescape %}{% endblock %}

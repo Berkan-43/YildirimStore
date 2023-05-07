@@ -1,0 +1,13 @@
+{% extends "account/email/base_message.txt" %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% blocktrans %}Bu e-postayı siz veya bir başkası kaydolmaya çalıştığı için alıyorsunuz.
+e-posta adresini kullanan hesap:
+
+{{ email }}
+
+Ancak, bu e-posta adresini kullanan bir hesap zaten var. sahip olmanız durumunda
+bunu unuttum, kurtarmak için lütfen şifremi unuttum prosedürünü kullanın
+hesabınız:
+
+{{ password_reset_url }}{% endblocktrans %}{% endautoescape %}{% endblock %}

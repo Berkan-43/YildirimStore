@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Parola Sıfırlama E-postası{% endblocktrans %}
+{% endautoescape %}

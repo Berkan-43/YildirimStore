@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Email adresinizi doğrulayın" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Email adresinizi doğrulayın" %}</h1>
+
+{% url 'account_email' as email_url %}
+
+<p>{% blocktrans %}Sitenin bu bölümü, bunu doğrulamamızı gerektiriyor
+    sen olduğunu iddia ettiğin kişisin. Bu amaçla sizden
+    e-posta adresinizin sahipliğini doğrulayın. {% endblocktrans %}</p>
+
+<p>{% blocktrans %}için size bir e-posta gönderdik.
+    doğrulama. Lütfen o e-postanın içindeki bağlantıya tıklayın. Doğrulama e-postasını ana gelen kutunuzda görmüyorsanız spam klasörünüzü kontrol edin. Aksi takdirde
+    birkaç dakika içinde almazsanız bizimle iletişime geçin.{% endblocktrans %}</p>
+
+<p>{% blocktrans %}<strong>Note:</strong> hala yapabilirsin <a href="{{ email_url }}">E posta adresini değiştir</a>.{% endblocktrans %}</p>
+
+
+{% endblock %}
