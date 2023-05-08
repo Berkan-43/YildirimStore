@@ -157,7 +157,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static']
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Default primary key field type
@@ -186,34 +186,6 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.SUCCESS: 'success',
                 message_constants.WARNING: 'warning',
                 message_constants.ERROR: 'danger', }
-
-LOGGING={
-    "version":1,
-    "disable_existing_loggers":False,
-    'formatters':{
-        "basit_ifade":{
-            "format":"{asctime} {message} {name} {levelname}",
-            "style": "{",
-        }
-    },
-    "handlers":{
-        "console":{
-            "class":"logging.StreamHandler"
-        },
-        "file":{
-            "class":"logging.FileHandler",
-            "filename":"logs/giris_yapanlar.log",
-            "formatter":"basit_ifade"
-        }
-    },
-    "loggers:":{
-        "giris_yapma":{
-            "handlers":["file"],
-            "level":"INFO",
-            "formatter":"basit_ifade"
-        }
-    }
-}
 
 AUTH_USER_MODEL = 'user.UserProfile' 
 
